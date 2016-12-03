@@ -1,0 +1,32 @@
+version: '2'
+services:
+  db:
+    image: 'mysql:5.7'
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - '3307:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=pass
+      - MYSQL_DATABASE=dbname
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pass
+  test:
+    build: .
+    volumes:
+      - .:/home/app/node-software-test:rw
+    environment:
+      - NODE_ENV=development
+      - BLUEBIRD_WARNINGS=0
+      - DATABASE_ENDPOINT=db
+      - DATABASE_PORT=3306
+      - DATABASE_NAME=dbname
+      - DATABASE_USER=user
+      - DATABASE_PASSWORD=pass
+    ports:
+      - '3000:8000'
+    links:
+      - db
+    depends_on:
+      - 'db'
+    entrypoint: ./wait-for-it.sh db:3306 -- node node_modules/nodemon/bin/nodemon.js api.js --ignore mysql/
