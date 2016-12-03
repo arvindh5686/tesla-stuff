@@ -4,7 +4,7 @@ const request = Promise.promisify(require('request'));
 const database = require('../database');
 let url = "http://localhost:8000/options";
 
-function mergeData() {
+function mergeData(req, res) {
   let promises = [];
 
   promises.push(database.fetchData());
@@ -28,16 +28,18 @@ function mergeData() {
               })
             })
 
-            let modelMs = result[1].body;
-            let modelMx = result[2].body;
+            let modelMs = JSON.parse(result[1].body);
+            let modelMx = JSON.parse(result[2].body);
 
             let finalResponse;
-            console.log(modelMs);
+            console.log(modelMs.options);
+
             for(let key in modelMs.options) {
               modelMs.options[key].price = mapModelPrice[modelMs.model + key];
-              console.log(mapModelPrice[modelMs.model + key])
 
             }
+
+            res.send(modelMs);
           });
 }
 
