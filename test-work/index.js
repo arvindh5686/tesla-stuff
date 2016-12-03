@@ -5,6 +5,7 @@ const database = require('../database');
 let url = "http://localhost:8000/options";
 
 function mergeData(req, res) {
+  console.log("test");
   let promises = [];
 
   promises.push(database.fetchData());
@@ -31,15 +32,22 @@ function mergeData(req, res) {
             let modelMs = JSON.parse(result[1].body);
             let modelMx = JSON.parse(result[2].body);
 
-            let finalResponse;
-            console.log(modelMs.options);
-
             for(let key in modelMs.options) {
               modelMs.options[key].price = mapModelPrice[modelMs.model + key];
-
             }
 
-            res.send(modelMs);
+            for(let key in modelMx.options) {
+              modelMx.options[key].price = mapModelPrice[modelMx.model + key];
+            }
+
+            console.log(req);
+            if (req.body.model === 'ms') {
+                res.send(modelMs);
+            } else if (req.body.model === 'mx') {
+                res.send(modelMx);
+            } else {
+              res.send(JSON.stringify(modelMs) + ',' + JSON.stringify(modelMx));
+            }
           });
 }
 
