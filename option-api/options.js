@@ -70,7 +70,7 @@ module.exports = [
     {
         model: 'mx',
         modelName: 'Model X',
-        config: {
+        options: {
             KKKK: {
                 code: 'KKKK',
                 price: 0,

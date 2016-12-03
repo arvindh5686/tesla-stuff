@@ -33,6 +33,13 @@ function checkConnection() {
     }
 }
 
+function fetchData() {
+  return sequelize.query("SELECT * FROM `Config_String`", { type: sequelize.QueryTypes.SELECT})
+  .then(function(configString) {
+    return configString;
+  })
+}
+
 function logSuccess() {
     console.log('Database connection established successfully.');
     sequelize.sync().then(() => {
@@ -52,3 +59,5 @@ function logFailure(err) {
     console.trace(err);
     console.warn('Unable to connect to the database.');
 }
+
+module.exports.fetchData = fetchData;
