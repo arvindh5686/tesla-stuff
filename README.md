@@ -1,5 +1,3 @@
-# Tesla Node.js Developer Test
-
 ## What is Provided
 
 You have been provided a compressed directory that contains a basic Node application setup and the Docker files to spin up a development environment, an API with one endpoint, and a database. To do this test you will need to have Docker and docker-compose installed.

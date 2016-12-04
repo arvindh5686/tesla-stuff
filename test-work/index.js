@@ -12,7 +12,6 @@ function mergeData(req, res) {
   promises.push(request(url + '/ms'));
   promises.push(request(url + '/mx'));
 
-
   Promise.all(promises)
           .then(result => {
             const dbResults = result[0];
@@ -29,6 +28,7 @@ function mergeData(req, res) {
               })
             })
 
+            console.log(mapModelPrice);
             let modelMs = JSON.parse(result[1].body);
             let modelMx = JSON.parse(result[2].body);
 
@@ -40,7 +40,7 @@ function mergeData(req, res) {
               modelMx.options[key].price = mapModelPrice[modelMx.model + key];
             }
 
-            console.log(req);
+          //  console.log(req);
             if (req.body.model === 'ms') {
                 res.send(modelMs);
             } else if (req.body.model === 'mx') {
